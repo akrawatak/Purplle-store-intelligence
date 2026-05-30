@@ -1,3 +1,18 @@
+#Overview
+
+This project builds an end-to-end retail intelligence pipeline that converts CCTV footage into structured retail analytics and operational insights. 
+Pipeline: CCTV Clips 
+             ↓ 
+    YOLO Detection + Tracking 
+             ↓ 
+    Structured Events
+            ↓
+    FastAPI Intelligence API 
+            ↓
+    SQLite Storage 
+           ↓  
+  Prometheus + Grafana + Streamlit North Star Metric: Offline Store Conversion Rate = Purchasing Visitors / Unique Visitors
+
 # Quick Start Guide
 
 This guide explains how to run the project from a fresh clone.
@@ -308,3 +323,4 @@ docker compose down
 
 ```powershell
 ```
+Note: Grafana may require a few refreshes before metrics appear. Features Entry detection Zone analytics Billing analytics Staff filtering Funnel analytics Heatmaps Conversion metrics Anomaly detection Prometheus metrics Grafana monitoring Detection Design Camera Mapping: CAM 1 → Product browsing CAM 2 → Secondary browsing angle CAM 3 → Entry / exit CAM 5 → Billing area Detection outputs structured events into: POST /events/ingest Group Entry Handling The system emits one event per detected person bounding box. If three people enter together and YOLO detects three people, three ENTRY events are emitted. Confidence Calibration Confidence scores are preserved in the event schema. Low-confidence detections are not silently removed. Edge Case Coverage Tests include: duplicate ingestion group entry low confidence events malformed payloads empty store behavior staff exclusion re-entry schema validation Known Limitations Exit detection is heuristic-based Cross-camera Re-ID is limited Re-entry logic is simplified Staff classification uses clothing heuristics Queue estimation depends on camera coverage Privacy Faces are blurred in source footage No facial recognition used Visitor IDs are session-based only Shutdown docker compose down this steps in read.md not working properly sequentially
