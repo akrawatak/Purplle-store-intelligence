@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+ultralytics
+opencv-python
+requests
+streamlit
+prometheus-client
+pytest
+httpx
