@@ -66,6 +66,13 @@ Make sure Docker Desktop is open and running.
 ```
 docker compose up --build
 
+### if doesn't work do:
+docker rm -f store-intelligence-api
+docker rm -f store-prometheus
+docker rm -f store-grafana
+then
+docker compose up --build
+
 ```
 
 Keep this terminal open.
