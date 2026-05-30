@@ -74,6 +74,14 @@ This starts:
 * Grafana
 * SQLite database persistence
 
+ Open new terminal in same cloned folder
+cd C:\Users\akraw\Desktop\reviewer-test\<repo-name>
+venv\Scripts\activate
+
+Check API:
+
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/stores/STORE_BLR_002/metrics
 ## 5. Start Dashboard
 
 Open another terminal:
