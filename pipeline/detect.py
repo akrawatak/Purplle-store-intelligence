@@ -3,6 +3,7 @@ import cv2
 import requests
 from uuid import uuid4
 from datetime import datetime, timezone
+from staff_utils import is_black_clothing
 
 model = YOLO("yolov8n.pt")
 
