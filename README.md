@@ -35,7 +35,7 @@ Purchasing Visitors / Unique Visitors
 ## 1. Clone Repository
 
 ```bash
-git clone <your-private-repo-link>
+git clone https://github.com/akrawatak/Purplle-store-intelligence.git
 cd store-intelligence
 ```
 
