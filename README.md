@@ -1,281 +1,310 @@
-# Store Intelligence System
+# Quick Start Guide
 
-## Overview
-
-This project builds an end-to-end retail intelligence pipeline that converts CCTV footage into structured retail analytics and operational insights.
-
-Pipeline:
-
-```text
-CCTV Clips
-   ↓
-YOLO Detection + Tracking
-   ↓
-Structured Events
-   ↓
-FastAPI Intelligence API
-   ↓
-SQLite Storage
-   ↓
-Prometheus + Grafana + Streamlit
-```
-
-North Star Metric:
-
-```text
-Offline Store Conversion Rate
-=
-Purchasing Visitors / Unique Visitors
-```
+This guide explains how to run the project from a fresh clone.
 
 ---
 
-# Quick Start Guide
+## Terminal 1: Clone Project and Start Backend
 
-## 1. Clone Repository
+Open PowerShell.
 
-```bash
+### 1. Clone repository
+
+```
 git clone https://github.com/akrawatak/Purplle-store-intelligence.git
 cd Purplle-store-intelligence
+
 ```
 
-## 2. Create Virtual Environment
+### 2. Create virtual environment
 
-Windows:
-
-```powershell
+```
 python -m venv venv
+
+```
+
+### 3. Activate virtual environment
+
+```
 venv\Scripts\activate
+
 ```
 
-Linux / Mac:
+After activation, terminal should show:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
+```
+(venv)
+
 ```
 
-## 3. Install Dependencies
+### 4. Install dependencies
 
-```bash
+```
 pip install -r requirements.txt
+
 ```
 
-## 4. Start Infrastructure
+### 5. Start Docker services
 
-```bash
+Make sure Docker Desktop is open and running.
+
+```
 docker compose up --build
+
 ```
+
+Keep this terminal open.
 
 This starts:
 
 * FastAPI API
 * Prometheus
 * Grafana
-* SQLite database persistence
+* SQLite event storage
 
- Open new terminal in same cloned folder
-cd C:\Users\akraw\Desktop\reviewer-test\<repo-name>
+---
+
+## Terminal 2: Verify API
+
+Open a new PowerShell terminal.
+
+Go to the project folder:
+
+```
+cd <path-to-your-folder>\Purplle-store-intelligence
+
+```
+
+Example:
+
+```
+cd C:\Users\akraw\Desktop\reviewer-test\Purplle-store-intelligence
+
+```
+
+Activate virtual environment again:
+
+```
 venv\Scripts\activate
 
-Check API:
+```
 
+Check API health:
+
+```
 curl http://127.0.0.1:8000/health
+
+```
+
+Check store metrics:
+
+```
 curl http://127.0.0.1:8000/stores/STORE_BLR_002/metrics
-## 5. Start Dashboard
 
-Open another terminal:
+```
 
-```bash
+Expected:
+
+* `/health` returns service status
+* `/metrics` returns visitor, funnel, staff, revenue, and conversion metrics
+
+---
+
+## Terminal 3: Start Streamlit Dashboard
+
+Open another PowerShell terminal.
+
+Go to the project folder:
+
+```
+cd <path-to-your-folder>\Purplle-store-intelligence
+
+```
+
+Activate virtual environment:
+
+```
+venv\Scripts\activate
+
+```
+
+Start Streamlit:
+
+```
 streamlit run dashboard.py
+
 ```
 
-## 6. Run Detection Pipelines
+Open:
 
-Open separate terminals.
+```
+http://localhost:8501
 
-Entry pipeline:
-
-```bash
-python pipeline/detect.py
 ```
 
-Zone pipeline:
+---
 
-```bash
-python pipeline/zone_pipeline.py
+## Terminal 4: Run Detection Pipelines
+
+Open another PowerShell terminal.
+
+Go to the project folder:
+
+```
+cd <path-to-your-folder>\Purplle-store-intelligence
+
 ```
 
-Billing pipeline:
+Activate virtual environment:
 
-```bash
-python pipeline/billing_pipeline.py
+```
+venv\Scripts\activate
+
 ```
 
-Optional experimental entry/exit pipeline:
+Run entry detection:
 
-```bash
-python pipeline/entry_exit_reentry.py
+```
+python pipeline\detect.py
+
 ```
 
-## 7. Run Tests
+Run product-zone detection:
 
-```bash
+```
+python pipeline\zone_pipeline.py
+
+```
+
+Run billing-zone detection:
+
+```
+python pipeline\billing_pipeline.py
+
+```
+
+Optional experimental entry / exit / re-entry detection:
+
+```
+python pipeline\entry_exit_reentry.py
+
+```
+
+All detection scripts emit events into:
+
+```
+POST /events/ingest
+
+```
+
+---
+
+## Terminal 5: Run Tests
+
+Open another PowerShell terminal.
+
+Go to the project folder:
+
+```
+cd <path-to-your-folder>\Purplle-store-intelligence
+
+```
+
+Activate virtual environment:
+
+```
+venv\Scripts\activate
+
+```
+
+Run tests:
+
+```
 pytest
+
+```
+
+Expected:
+
+```
+all tests passed
+
 ```
 
 ---
 
-# Repository Structure
+## Useful URLs
 
-```text
-store-intelligence/
-├── app/
-├── pipeline/
-├── tests/
-├── docs/
-├── dashboard.py
-├── docker-compose.yml
-├── requirements.txt
-└── README.md
+Swagger API Docs:
+
 ```
-
----
-
-# URLs
-
-Swagger Docs:
-
-```text
 http://127.0.0.1:8000/docs
+
 ```
 
-Health:
+Health Endpoint:
 
-```text
+```
 http://127.0.0.1:8000/health
+
 ```
 
-Metrics:
+Metrics Endpoint:
 
-```text
+```
 http://127.0.0.1:8000/stores/STORE_BLR_002/metrics
+
 ```
 
 Prometheus:
 
-```text
+```
 http://127.0.0.1:9090
+
 ```
 
 Grafana Home:
 
-```text
+```
 http://127.0.0.1:3000
+
 ```
 
 Grafana Dashboard:
 
-```text
+```
 http://localhost:3000/d/adxgbgd/c4749ca?orgId=1&from=now-6h&to=now&timezone=browser
+
 ```
 
 Streamlit Dashboard:
 
-```text
+```
 http://localhost:8501
+
 ```
 
 Note:
 
-```text
-Grafana may require a few refreshes before metrics appear.
+Grafana may take a few seconds and a refresh before showing metrics.
+
+---
+
+## Shutdown
+
+In Terminal 1, press:
+
+```
+CTRL + C
+
 ```
 
----
+Then run:
 
-# Features
-
-* Entry detection
-* Zone analytics
-* Billing analytics
-* Staff filtering
-* Funnel analytics
-* Heatmaps
-* Conversion metrics
-* Anomaly detection
-* Prometheus metrics
-* Grafana monitoring
-
----
-
-# Detection Design
-
-Camera Mapping:
-
-* CAM 1 → Product browsing
-* CAM 2 → Secondary browsing angle
-* CAM 3 → Entry / exit
-* CAM 5 → Billing area
-
-Detection outputs structured events into:
-
-```text
-POST /events/ingest
 ```
-
----
-
-# Group Entry Handling
-
-The system emits one event per detected person bounding box.
-
-If three people enter together and YOLO detects three people, three ENTRY events are emitted.
-
----
-
-# Confidence Calibration
-
-Confidence scores are preserved in the event schema.
-
-Low-confidence detections are not silently removed.
-
----
-
-# Edge Case Coverage
-
-Tests include:
-
-* duplicate ingestion
-* group entry
-* low confidence events
-* malformed payloads
-* empty store behavior
-* staff exclusion
-* re-entry schema validation
-
----
-
-# Known Limitations
-
-* Exit detection is heuristic-based
-* Cross-camera Re-ID is limited
-* Re-entry logic is simplified
-* Staff classification uses clothing heuristics
-* Queue estimation depends on camera coverage
-
----
-
-# Privacy
-
-* Faces are blurred in source footage
-* No facial recognition used
-* Visitor IDs are session-based only
-
----
-
-# Shutdown
-
-```bash
 docker compose down
+
+```
+
+```powershell
 ```
