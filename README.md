@@ -36,7 +36,7 @@ Purchasing Visitors / Unique Visitors
 
 ```bash
 git clone https://github.com/akrawatak/Purplle-store-intelligence.git
-cd store-intelligence
+cd Purplle-store-intelligence
 ```
 
 ## 2. Create Virtual Environment
